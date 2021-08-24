@@ -44,10 +44,14 @@ export class Observer {
     this.dep = new Dep()
     this.vmCount = 0
     def(value, '__ob__', this)
+    //如果是数组需要遍历数组的每一个成语
     if (Array.isArray(value)) {
+      //如果当前浏览器支持__proto__属性
       if (hasProto) {
+        //直接覆盖当前数组对象原型上的原生数组方法
         protoAugment(value, arrayMethods)
       } else {
+        
         copyAugment(value, arrayMethods, arrayKeys)
       }
       this.observeArray(value)
@@ -61,6 +65,7 @@ export class Observer {
    * getter/setters. This method should only be called when
    * value type is Object.
    */
+  //遍历对象的每个属性，调用defineReactive
   walk (obj: Object) {
     const keys = Object.keys(obj)
     for (let i = 0; i < keys.length; i++) {
@@ -71,6 +76,7 @@ export class Observer {
   /**
    * Observe a list of Array items.
    */
+  //遍历数组的每一个成员
   observeArray (items: Array<any>) {
     for (let i = 0, l = items.length; i < l; i++) {
       observe(items[i])
@@ -95,6 +101,7 @@ function protoAugment (target, src: Object) {
  * hidden properties.
  */
 /* istanbul ignore next */
+//、、、定义（覆盖）目标对象或数组的某一个方法*
 function copyAugment (target: Object, src: Object, keys: Array<string>) {
   for (let i = 0, l = keys.length; i < l; i++) {
     const key = keys[i]
@@ -108,13 +115,16 @@ function copyAugment (target: Object, src: Object, keys: Array<string>) {
  * or the existing observer if the value already has one.
  */
 export function observe (value: any, asRootData: ?boolean): Observer | void {
+  //判断是否为对象或者value的原型链上是否有VNode.prototype
   if (!isObject(value) || value instanceof VNode) {
     return
   }
   let ob: Observer | void
+  //判断是否已经有Observer实例
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
   } else if (
+    // 、、、
     shouldObserve &&
     !isServerRendering() &&
     (Array.isArray(value) || isPlainObject(value)) &&
@@ -124,6 +134,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
     ob = new Observer(value)
   }
   if (asRootData && ob) {
+    //、、、 如果是根数据则计数
     ob.vmCount++
   }
   return ob
@@ -132,6 +143,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
 /**
  * Define a reactive property on an Object.
  */
+// defineReactive 通过object.defineProperty为数组定义上getter/setter方法，进行依赖收集后闭包中的Deps会存放Watcher对象，触发setter改变数组时通知Deps订阅者通知所有的Watcher观察者进行视图更新
 export function defineReactive (
   obj: Object,
   key: string,
@@ -140,7 +152,7 @@ export function defineReactive (
   shallow?: boolean
 ) {
   const dep = new Dep()
-
+  // Object.getOwnPropertyDescriptor() 方法返回指定对象上一个自有属性对应的属性描述符   https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor
   const property = Object.getOwnPropertyDescriptor(obj, key)
   if (property && property.configurable === false) {
     return
@@ -154,16 +166,20 @@ export function defineReactive (
   }
 
   let childOb = !shallow && observe(val)
+  
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter () {
       const value = getter ? getter.call(obj) : val
       if (Dep.target) {
+        //进行依赖收集
         dep.depend()
         if (childOb) {
+          // 子对象依赖收集
           childOb.dep.depend()
           if (Array.isArray(value)) {
+            // 数组依赖手机
             dependArray(value)
           }
         }
@@ -173,6 +189,7 @@ export function defineReactive (
     set: function reactiveSetter (newVal) {
       const value = getter ? getter.call(obj) : val
       /* eslint-disable no-self-compare */
+      // 判断值是否一致
       if (newVal === value || (newVal !== newVal && value !== value)) {
         return
       }
@@ -188,6 +205,7 @@ export function defineReactive (
         val = newVal
       }
       childOb = !shallow && observe(newVal)
+      // 通知所有观察者
       dep.notify()
     }
   })

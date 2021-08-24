@@ -5,7 +5,7 @@ import { remove } from '../util/index'
 import config from '../config'
 
 let uid = 0
-
+// 、、、dep是一个发布者，可以订阅多个观察者，依赖收集之后Deps中会存在一个或多个Watcher对象，在数据变更的时候通知所有的Wather
 /**
  * A dep is an observable that can have multiple
  * directives subscribing to it.

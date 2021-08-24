@@ -116,6 +116,7 @@ function initData (vm: Component) {
   data = vm._data = typeof data === 'function'
     ? getData(data, vm)
     : data || {}
+  //判断是否是一个对象
   if (!isPlainObject(data)) {
     data = {}
     process.env.NODE_ENV !== 'production' && warn(
@@ -132,6 +133,7 @@ function initData (vm: Component) {
   while (i--) {
     const key = keys[i]
     if (process.env.NODE_ENV !== 'production') {
+      //方法名与data中名称重复提醒
       if (methods && hasOwn(methods, key)) {
         warn(
           `Method "${key}" has already been defined as a data property.`,
@@ -139,6 +141,7 @@ function initData (vm: Component) {
         )
       }
     }
+    //props与data名称重复提醒
     if (props && hasOwn(props, key)) {
       process.env.NODE_ENV !== 'production' && warn(
         `The data property "${key}" is already declared as a prop. ` +
@@ -146,10 +149,13 @@ function initData (vm: Component) {
         vm
       )
     } else if (!isReserved(key)) {
+      //判断是否 $ or _开头
+      //将data代理到vm实例上
       proxy(vm, `_data`, key)
     }
   }
   // observe data
+  //observe数据
   observe(data, true /* asRootData */)
 }
 
