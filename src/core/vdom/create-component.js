@@ -112,12 +112,14 @@ export function createComponent (
   const baseCtor = context.$options._base
 
   // plain options object: turn it into a constructor
+  // 、、、 普通选项对象，把它变成一个构造函数
   if (isObject(Ctor)) {
     Ctor = baseCtor.extend(Ctor)
   }
 
   // if at this stage it's not a constructor or an async component factory,
   // reject.
+  // 如果在该阶段Ctor依然不是一个构造函数或者是一个异步组件工厂则直接返回
   if (typeof Ctor !== 'function') {
     if (process.env.NODE_ENV !== 'production') {
       warn(`Invalid Component definition: ${String(Ctor)}`, context)
@@ -134,6 +136,7 @@ export function createComponent (
       // return a placeholder node for async component, which is rendered
       // as a comment node but preserves all the raw information for the node.
       // the information will be used for async server-rendering and hydration.
+      // 返回异步组件的占位符节点，该节点已呈现作为注释节点，但保留节点的所有原始信息。该信息将用于异步服务器渲染
       return createAsyncPlaceholder(
         asyncFactory,
         data,
