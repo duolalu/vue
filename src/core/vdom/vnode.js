@@ -70,14 +70,14 @@ export default class VNode {
     return this.componentInstance
   }
 }
-
+//创建空VNode节点
 export const createEmptyVNode = (text: string = '') => {
   const node = new VNode()
   node.text = text
   node.isComment = true
   return node
 }
-
+//创建一个文本节点
 export function createTextVNode (val: string | number) {
   return new VNode(undefined, undefined, undefined, String(val))
 }
