@@ -1,20 +1,20 @@
 /* @flow */
 
 export default class VNode {
-  tag: string | void;
-  data: VNodeData | void;
-  children: ?Array<VNode>;
-  text: string | void;
-  elm: Node | void;
-  ns: string | void;
-  context: Component | void; // rendered in this component's scope
-  key: string | number | void;
-  componentOptions: VNodeComponentOptions | void;
-  componentInstance: Component | void; // component instance
-  parent: VNode | void; // component placeholder node
+  tag: string | void; //当前节点的标签名
+  data: VNodeData | void; //当前节点对应的对象，包含具体的数据信息，是一个VNodeData类型，可参考VNodeData类型中的数据信息
+  children: ?Array<VNode>;//当前节点的子节点，是一个数组
+  text: string | void;//当前节点的文本
+  elm: Node | void;//当前虚拟节点对应的真实dom节点
+  ns: string | void;//当前节点的名字空间
+  context: Component | void; // rendered in this component's scope //编译作用域
+  key: string | number | void;//节点的key属性，被当做节点的标志，用以优化，diff算法中有用到
+  componentOptions: VNodeComponentOptions | void;//组件的options选项
+  componentInstance: Component | void; // component instance //当前节点对应的组件的实例
+  parent: VNode | void; // component placeholder node //当前节点的父节点
 
   // strictly internal
-  raw: boolean; // contains raw HTML? (server only)
+  raw: boolean; // contains raw HTML? (server only) //
   isStatic: boolean; // hoisted static node
   isRootInsert: boolean; // necessary for enter transition check
   isComment: boolean; // empty comment placeholder?

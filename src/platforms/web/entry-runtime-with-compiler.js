@@ -13,7 +13,6 @@ const idToTemplate = cached(id => {
   const el = query(id)
   return el && el.innerHTML
 })
-
 const mount = Vue.prototype.$mount
 Vue.prototype.$mount = function (
   el?: string | Element,
@@ -31,11 +30,15 @@ Vue.prototype.$mount = function (
 
   const options = this.$options
   // resolve template/el and convert to render function
+  // 处理模板template，编译成render函数
   if (!options.render) {
+    //如果render不存在
     let template = options.template
+    //如果template存在
     if (template) {
       if (typeof template === 'string') {
         if (template.charAt(0) === '#') {
+          //id
           template = idToTemplate(template)
           /* istanbul ignore if */
           if (process.env.NODE_ENV !== 'production' && !template) {
@@ -46,14 +49,17 @@ Vue.prototype.$mount = function (
           }
         }
       } else if (template.nodeType) {
+        //template为node节点
         template = template.innerHTML
       } else {
+        //报错
         if (process.env.NODE_ENV !== 'production') {
           warn('invalid template option:' + template, this)
         }
         return this
       }
     } else if (el) {
+      //template不存在去el outerHTML
       template = getOuterHTML(el)
     }
     if (template) {
@@ -61,7 +67,7 @@ Vue.prototype.$mount = function (
       if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
         mark('compile')
       }
-
+ /*、、、将template编译成render函数，这里会有render以及staticRenderFns两个返回，这是vue的编译时优化，static静态不需要在VNode更新时进行patch，优化性能*/
       const { render, staticRenderFns } = compileToFunctions(template, {
         outputSourceRange: process.env.NODE_ENV !== 'production',
         shouldDecodeNewlines,

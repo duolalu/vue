@@ -408,6 +408,8 @@ export function createPatchFunction (backend) {
     }
   }
 
+  //、、、详细图解步骤https://github.com/answershuto/learnVue/blob/master/docs/VirtualDOM%E4%B8%8Ediff(Vue%E5%AE%9E%E7%8E%B0).MarkDown
+  //https://segmentfault.com/a/1190000021896771 算法详解 动态规划  https://leetcode-cn.com/problems/edit-distance/ 72编辑距离问题类似
   function updateChildren (parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly) {
     let oldStartIdx = 0
     let newStartIdx = 0
@@ -418,7 +420,7 @@ export function createPatchFunction (backend) {
     let newStartVnode = newCh[0]
     let newEndVnode = newCh[newEndIdx]
     let oldKeyToIdx, idxInOld, vnodeToMove, refElm
-
+        
     // removeOnly is a special flag used only by <transition-group>
     // to ensure removed elements stay in correct relative positions
     // during leaving transitions
