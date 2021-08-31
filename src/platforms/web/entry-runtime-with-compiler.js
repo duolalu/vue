@@ -20,7 +20,7 @@ Vue.prototype.$mount = function (
 ): Component {
   el = el && query(el)
 
-  /* istanbul ignore if */
+  /* istanbul ignore if 不难挂载到body/html上 */
   if (el === document.body || el === document.documentElement) {
     process.env.NODE_ENV !== 'production' && warn(
       `Do not mount Vue to <html> or <body> - mount to normal elements instead.`
