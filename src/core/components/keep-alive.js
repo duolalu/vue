@@ -100,6 +100,7 @@ export default {
 
   mounted () {
     this.cacheVNode()
+    //监听include exclude这两个props
     this.$watch('include', val => {
       pruneCache(this, name => matches(val, name))
     })
@@ -113,6 +114,7 @@ export default {
   },
 
   render () {
+    //通过$slot获得需要缓存的组件
     const slot = this.$slots.default
     const vnode: VNode = getFirstComponentChild(slot) //找到第一个子组件对象
     const componentOptions: ?VNodeComponentOptions = vnode && vnode.componentOptions
