@@ -57,6 +57,7 @@ export function createCompileToFunctionFn (compile: Function): Function {
     }
 
     // compile
+    //编译template
     const compiled = compile(template, options)
 
     // check compilation errors/tips
@@ -90,7 +91,9 @@ export function createCompileToFunctionFn (compile: Function): Function {
     // turn code into functions
     const res = {}
     const fnGenErrors = []
+    //将render转换成function对象
     res.render = createFunction(compiled.render, fnGenErrors)
+    //将staticRenderFns全部转化成Function对象
     res.staticRenderFns = compiled.staticRenderFns.map(code => {
       return createFunction(code, fnGenErrors)
     })
@@ -99,6 +102,7 @@ export function createCompileToFunctionFn (compile: Function): Function {
     // this should only happen if there is a bug in the compiler itself.
     // mostly for codegen development use
     /* istanbul ignore if */
+    //检查编译是否有bug
     if (process.env.NODE_ENV !== 'production') {
       if ((!compiled.errors || !compiled.errors.length) && fnGenErrors.length) {
         warn(

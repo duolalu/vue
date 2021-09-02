@@ -11,7 +11,7 @@ import { initProvide, initInjections } from './inject'
 import { extend, mergeOptions, formatComponentName } from '../util/index'
 
 let uid = 0
-
+// init 初始化生命周期、事件、render函数、state等  挂载 $mount
 export function initMixin (Vue: Class<Component>) {
   Vue.prototype._init = function (options?: Object) {
     const vm: Component = this
@@ -27,6 +27,7 @@ export function initMixin (Vue: Class<Component>) {
     }
 
     // a flag to avoid this being observed
+    //防止vm实例自身被观察的标志位
     vm._isVue = true
     // merge options
     if (options && options._isComponent) {

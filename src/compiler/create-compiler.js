@@ -3,7 +3,7 @@
 import { extend } from 'shared/util'
 import { detectErrors } from './error-detector'
 import { createCompileToFunctionFn } from './to-function'
-
+//将template编译成AST，render函数，staticRenderfns函数
 export function createCompilerCreator (baseCompile: Function): Function {
   return function createCompiler (baseOptions: CompilerOptions) {
     function compile (
@@ -13,7 +13,7 @@ export function createCompilerCreator (baseCompile: Function): Function {
       const finalOptions = Object.create(baseOptions)
       const errors = []
       const tips = []
-
+ 
       let warn = (msg, range, tip) => {
         (tip ? tips : errors).push(msg)
       }
@@ -22,7 +22,7 @@ export function createCompilerCreator (baseCompile: Function): Function {
         if (process.env.NODE_ENV !== 'production' && options.outputSourceRange) {
           // $flow-disable-line
           const leadingSpaceLength = template.match(/^\s*/)[0].length
-
+ 
           warn = (msg, range, tip) => {
             const data: WarningMessage = { msg }
             if (range) {

@@ -49,14 +49,20 @@ export function proxy (target: Object, sourceKey: string, key: string) {
 export function initState (vm: Component) {
   vm._watchers = []
   const opts = vm.$options
+  //初始化props
   if (opts.props) initProps(vm, opts.props)
+  //初始化methods
   if (opts.methods) initMethods(vm, opts.methods)
+  //初始化data
   if (opts.data) {
     initData(vm)
   } else {
+    //没有data则绑定一个空对象
     observe(vm._data = {}, true /* asRootData */)
   }
+  //初始化computed
   if (opts.computed) initComputed(vm, opts.computed)
+  //初始化watchers
   if (opts.watch && opts.watch !== nativeWatch) {
     initWatch(vm, opts.watch)
   }

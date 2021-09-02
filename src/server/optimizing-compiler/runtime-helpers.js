@@ -28,6 +28,8 @@ const ssrHelpers = {
   _ssrStyle: renderSSRStyle
 }
 
+
+
 export function installSSRHelpers (vm: Component) {
   if (vm._ssrNode) {
     return

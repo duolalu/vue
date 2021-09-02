@@ -14,12 +14,12 @@ export default class VNode {
   parent: VNode | void; // component placeholder node //当前节点的父节点
 
   // strictly internal
-  raw: boolean; // contains raw HTML? (server only) //
-  isStatic: boolean; // hoisted static node
-  isRootInsert: boolean; // necessary for enter transition check
-  isComment: boolean; // empty comment placeholder?
-  isCloned: boolean; // is a cloned node?
-  isOnce: boolean; // is a v-once node?
+  raw: boolean; // contains raw HTML? (server only) //、、、是否为原生HTML或只是普通文本
+  isStatic: boolean; // hoisted static node //静态节点标志
+  isRootInsert: boolean; // necessary for enter transition check //是否为根结点插入
+  isComment: boolean; // empty comment placeholder? //是否为注释节点
+  isCloned: boolean; // is a cloned node? //是否为cloned
+  isOnce: boolean; // is a v-once node? 
   asyncFactory: Function | void; // async component factory function
   asyncMeta: Object | void;
   isAsyncPlaceholder: boolean;

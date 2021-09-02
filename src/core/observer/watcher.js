@@ -187,6 +187,7 @@ export default class Watcher {
     } else if (this.sync) {
       this.run()
     } else {
+      //异步推送到观察者队列中，下一个tick时调用
       queueWatcher(this)
     }
   }
